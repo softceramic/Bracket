@@ -5,21 +5,20 @@ public class Engine {
     private final AppLogic applogic;
     private final Window window;
     private final Render render;
-    private final boolean running;
+    private boolean running;
     private final Scene scene;
     private final int targetFramesPerSecond;
     private final int targetUpdatesPerSecond;
 
-    public Engine(String windowtitle, Window window, AppLogic applogic) {
+    public Engine(String windowtitle, Window.WindowOptions options, AppLogic applogic) {
 
-        // @TODO this needs to be worked out, window's option params need to be the second field here
-        this.window = new Window(windowtitle, () -> {
+        this.window = new Window(windowtitle, new Window.WindowOptions(), () -> {
             resize();
             return null;
         });
 
-        targetFramesPerSecond = window.framesPerSecond;
-        targetUpdatesPerSecond = window.updatesPerSecond;
+        targetFramesPerSecond = options.framesPerSecond;
+        targetUpdatesPerSecond = options.updatesPerSecond;
         this.applogic = applogic;
         render = new Render();
         scene = new Scene();
@@ -32,6 +31,11 @@ public class Engine {
         render.cleanup();
         scene.cleanup();
         window.cleanup();
+    }
+
+    public void start() {
+        running = true;
+        run();
     }
 
     private void resize() {
@@ -72,5 +76,6 @@ public class Engine {
         }
         cleanup();
     }
+
 
 }

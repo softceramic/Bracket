@@ -14,13 +14,10 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Window {
     public final long handle;
     private final Callable<Void> resizeMethod;
-    public int height;
-    public int width;
-    public int framesPerSecond;
-    public int updatesPerSecond = Engine.TARGET_UPDATES_PER_SECOND;
-    public boolean compatibleProfile;
+    public int width,height;
 
-    public Window(String title, Callable<Void> resizeMethod) {
+
+    public Window(String title,  WindowOptions options, Callable<Void> resizeMethod) {
         this.resizeMethod = resizeMethod;
         if (!glfwInit()) throw new IllegalStateException("[Window: Unable to initialize GLFW]");
 
@@ -32,7 +29,7 @@ public class Window {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 
 
-        if (compatibleProfile) {
+        if (options.compatibleProfile) {
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
         } else {
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -40,9 +37,9 @@ public class Window {
         }
 
 
-        if (width > 0 && height > 0) {
-            this.width = width;
-            this.height = height;
+        if (options.width > 0 && options.height > 0) {
+            this.width = options.width;
+            this.height = options.height;
         } else {
             glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
             GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -65,7 +62,7 @@ public class Window {
 
 
         glfwMakeContextCurrent(handle);
-        if (this.framesPerSecond > 0) glfwSwapInterval(0);
+        if (options.framesPerSecond > 0) glfwSwapInterval(0);
         else glfwSwapInterval(1);
         glfwShowWindow(handle);
 
@@ -116,5 +113,12 @@ public class Window {
 
     public boolean windowShouldClose() {
         return glfwWindowShouldClose(handle);
+    }
+
+    public static class WindowOptions {
+        public int height, width;
+        public int framesPerSecond;
+        public int updatesPerSecond = Engine.TARGET_UPDATES_PER_SECOND;
+        public boolean compatibleProfile;
     }
 }
