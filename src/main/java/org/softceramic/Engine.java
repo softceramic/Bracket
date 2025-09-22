@@ -12,7 +12,7 @@ public class Engine {
 
     public Engine(String windowtitle, Window window, AppLogic applogic) {
 
-
+        // @TODO this needs to be worked out, window's option params need to be the second field here
         this.window = new Window(windowtitle, () -> {
             resize();
             return null;
