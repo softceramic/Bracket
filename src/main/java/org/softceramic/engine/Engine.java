@@ -1,4 +1,9 @@
-package org.softceramic;
+package org.softceramic.engine;
+
+import org.softceramic.AppLogic;
+import org.softceramic.Window;
+import org.softceramic.engine.graph.Render;
+import org.softceramic.engine.scene.Scene;
 
 public class Engine {
     public static final int TARGET_UPDATES_PER_SECOND = 30;
@@ -12,7 +17,7 @@ public class Engine {
 
     public Engine(String windowtitle, Window.WindowOptions options, AppLogic applogic) {
 
-        this.window = new Window(windowtitle, new Window.WindowOptions(), () -> {
+        this.window = new Window(windowtitle, options, () -> {
             resize();
             return null;
         });
@@ -38,6 +43,10 @@ public class Engine {
         run();
     }
 
+    public void stop() {
+        running = false;
+    }
+
     private void resize() {
 
     }
@@ -45,7 +54,7 @@ public class Engine {
     private void run() {
         long initialTime = System.currentTimeMillis();
         float timeElapsedBetweenUpdates = 1000.0f / targetUpdatesPerSecond;
-        float timeElapsedBetweenRenderCalls = targetFramesPerSecond > 0 ? (float) (1000.0 / targetFramesPerSecond) : 0;
+        float timeElapsedBetweenRenderCalls = targetFramesPerSecond > 0 ? (1000.0f / targetFramesPerSecond) : 0;
         float deltaUpdate = 0;
         float deltaFramesPerSecond = 0;
         long updateTime = initialTime;

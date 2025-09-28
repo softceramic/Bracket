@@ -3,6 +3,7 @@ package org.softceramic;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.system.MemoryUtil;
+import org.softceramic.engine.Engine;
 import org.tinylog.Logger;
 
 import java.util.concurrent.Callable;
@@ -14,17 +15,17 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Window {
     public final long handle;
     private final Callable<Void> resizeMethod;
-    public int width,height;
+    public int width, height;
 
 
-    public Window(String title,  WindowOptions options, Callable<Void> resizeMethod) {
+    public Window(String title, WindowOptions options, Callable<Void> resizeMethod) {
         this.resizeMethod = resizeMethod;
         if (!glfwInit()) throw new IllegalStateException("[Window: Unable to initialize GLFW]");
 
 
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 
@@ -35,7 +36,6 @@ public class Window {
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         }
-
 
         if (options.width > 0 && options.height > 0) {
             this.width = options.width;
@@ -62,8 +62,10 @@ public class Window {
 
 
         glfwMakeContextCurrent(handle);
-        if (options.framesPerSecond > 0) glfwSwapInterval(0);
-        else glfwSwapInterval(1);
+        if (options.framesPerSecond > 0) {
+            glfwSwapInterval(0);
+        } else glfwSwapInterval(1);
+
         glfwShowWindow(handle);
 
 
@@ -101,7 +103,6 @@ public class Window {
         this.height = h;
         try {
             resizeMethod.call();
-
         } catch (Exception exception) {
             Logger.error("Error Calling Resize Callback", exception);
         }
