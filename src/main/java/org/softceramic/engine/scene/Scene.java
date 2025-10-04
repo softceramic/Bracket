@@ -9,9 +9,19 @@ import java.util.Map;
 public class Scene {
 
     private final Map<String, Mesh> meshMap;
+    private final Projection projection;
 
-    public Scene() {
+    public Scene(int width, int height) {
         meshMap = new HashMap<>();
+        projection = new Projection(width, height);
+    }
+
+    public Projection getProjection() {
+        return projection;
+    }
+
+    public void resize(int width, int height) {
+        projection.updateProjectionMatrix(width, height);
     }
 
     public void addMesh(String meshID, Mesh mesh) {

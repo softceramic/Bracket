@@ -26,7 +26,7 @@ public class Engine {
         targetUpdatesPerSecond = options.updatesPerSecond;
         this.applogic = applogic;
         render = new Render();
-        scene = new Scene();
+        scene = new Scene(window.width, window.height);
         applogic.init(window, scene, render);
         running = true;
     }
@@ -48,7 +48,7 @@ public class Engine {
     }
 
     private void resize() {
-
+        scene.resize(window.width, window.height);
     }
 
     private void run() {

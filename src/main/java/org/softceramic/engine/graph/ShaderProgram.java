@@ -20,6 +20,7 @@ public class ShaderProgram {
         shaderModuleDataList.forEach(s -> shaderModules.add(
                 createShader(Utils.readFile(s.shaderFile), s.shaderType)
         ));
+
         link(shaderModules);
 
     }
