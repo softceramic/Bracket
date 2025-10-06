@@ -12,6 +12,7 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public class Mesh {
+
     private final List<Integer> vboIDList;
     private final int vaoID;
     private final int numberOfVertices;
@@ -80,6 +81,5 @@ public class Mesh {
     public final int getVaoID() {
         return vaoID;
     }
-
 
 }

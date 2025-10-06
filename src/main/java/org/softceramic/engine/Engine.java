@@ -6,6 +6,7 @@ import org.softceramic.engine.graph.Render;
 import org.softceramic.engine.scene.Scene;
 
 public class Engine {
+
     public static final int TARGET_UPDATES_PER_SECOND = 30;
     private final AppLogic applogic;
     private final Window window;
@@ -65,8 +66,9 @@ public class Engine {
             long now = System.currentTimeMillis();
             deltaUpdate += (now - initialTime) / timeElapsedBetweenUpdates;
             deltaFramesPerSecond += (now - initialTime) / timeElapsedBetweenRenderCalls;
-            if (targetFramesPerSecond <= 0 || deltaFramesPerSecond >= 1)
+            if (targetFramesPerSecond <= 0 || deltaFramesPerSecond >= 1) {
                 applogic.input(window, scene, now - initialTime);
+            }
 
             if (deltaUpdate >= 1) {
                 long deltaTimeMilliseconds = now - updateTime;
@@ -85,6 +87,5 @@ public class Engine {
         }
         cleanup();
     }
-
 
 }

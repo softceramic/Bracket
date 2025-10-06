@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 public class UniformsMap {
+
     private final Map<String, Integer> uniforms;
     private final int programID;
 
@@ -22,10 +23,10 @@ public class UniformsMap {
         int uniformlocation = glGetUniformLocation(programID, uniformname);
 
         if (uniformlocation < 0) {
-            throw new RuntimeException("{UniformsMap.java: Could not find uniform " +
-                    uniformname +
-                    " in shader program " +
-                    programID);
+            throw new RuntimeException("{UniformsMap.java: Could not find uniform "
+                    + uniformname
+                    + " in shader program "
+                    + programID);
         }
 
         uniforms.put(uniformname, uniformlocation);
